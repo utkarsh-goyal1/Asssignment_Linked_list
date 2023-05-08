@@ -1,0 +1,35 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner (System.in);
+        int t=sc.nextInt();
+        for(int i=0;i<t;i++)
+        {
+            long n=sc.nextLong();
+            long k=sc.nextLong();
+            System.out.println(find(n,k));
+        }
+    }
+    public static long find (long n,long k)
+    {
+        long low=1;
+        long high=n;
+        long ans=0;
+        while(low<=high)
+        {
+            long mid=low+(high-low)/2;
+            if((long)Math.pow(mid,k)<=n)
+            {
+                ans=mid;
+                low=mid+1;
+            }
+            else
+            {
+                high=mid-1;
+            }
+        }
+        return ans;
+        
+    }
+}
