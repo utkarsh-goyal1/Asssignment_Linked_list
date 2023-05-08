@@ -1,0 +1,68 @@
+//The coding blocks members went to the success party of their first ever online boot-camp at Murthal.
+//They ordered P number of paranthas. 
+//The stall has L cooks and each cook has a rank R. 
+//A cook with a rank R can cook 1 parantha in the first R minutes 1 more parantha in the next 2R minutes,
+//1 more parantha in 3R minutes and so on(he can only cook a complete parantha) ( For example if a cook is ranked 2.. he will cook one parantha in 2 minutes one more parantha in the next 4 mins and one more in the next 6 minutes hence in total 12 minutes he cooks 3 paranthas. In 13 minutes also he can cook only 3 paranthas as he does not have enough time for the 4th parantha).
+//Calculate the minimum time needed to cook all the paranthas.
+
+
+import java.util.*;
+public class Main {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner (System.in);
+        int paranthas=sc.nextInt();
+        int cooks=sc.nextInt();
+        int []ranks_of_cooks=new int [cooks];
+        int max=0;
+        Arrays.sort(ranks_of_cooks);
+        for(int i=0;i<ranks_of_cooks.length;i++)
+        {
+            ranks_of_cooks[i]=sc.nextInt();
+            max=Math.max(max,ranks_of_cooks[i]);
+        }
+        int low=0;
+        int high=(ranks_of_cooks[ranks_of_cooks.length - 1] * (paranthas * (paranthas + 1))) / 2;
+        int ans=0;
+        while(low<=high)
+        {
+            int mid=low+(high-low)/2;
+            if(check(ranks_of_cooks,mid,paranthas))
+            {
+                ans=mid;
+                high=mid-1;
+            }
+            else
+            {
+                low=mid+1;
+            }
+        }
+        System.out.print(ans);
+    }
+    public static boolean check(int[] ranks_of_cooks, int mid, int nop)
+    {
+        int parantha=1;
+        int total=0;
+        int tp=0;
+        int i=0;
+        while(i<ranks_of_cooks.length)
+        {
+            if(total+parantha*ranks_of_cooks[i]<=mid)
+            {
+                total=total+parantha*ranks_of_cooks[i];
+                parantha++;
+                tp++;
+            }
+            else{
+                i++;
+                parantha=1;
+                total=0;
+            }
+            if(tp==nop)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+}
