@@ -1,0 +1,65 @@
+//Given K painters to paint N boards where each painter takes 1 unit of time to paint 1 unit of boards i.e. 
+//if the length of a particular board is 5, it will take 5 units of time to paint the board. Compute the minimum amount of time to paint all the boards.
+
+
+import java.util.*;
+public class Main {
+    public static void main(String args[]) {
+        Scanner sc=new Scanner (System.in);
+        int painters=sc.nextInt();
+        int boards=sc.nextInt();
+        int []size=new int[boards];
+        int max=0;
+        int sum=0;
+        for(int i=0;i<size.length;i++)
+        {
+            size[i]=sc.nextInt();
+            max=Math.max(max,size[i]);
+            sum=sum+size[i];
+        }
+        int low=max;
+        int high=sum;
+        int ans=low;
+        while(low<=high)
+        {
+            int mid=low+(high-low)/2;
+            if(check(size,painters,mid))
+            {
+                ans=mid;
+                high=mid-1;
+            }
+            else
+            {
+                low=mid+1;
+            }
+        }
+        System.out.print(ans);
+    }
+    public static boolean check(int []size,int k,int mid)
+    {
+        int temp=mid;
+        for(int i=0;i<size.length;i++)
+        {
+            if(size[i]<=mid)
+            {
+                mid-=size[i];
+            }
+            else{
+                k--;
+                mid=temp;
+                if(size[i]>mid)
+                {
+                    k--;
+                }
+                else{
+                    mid-=size[i];
+                }
+            }
+            if(k==0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+}
